@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumulative Interest (Compound Interest) Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .result strong {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cumulative Interest (Compound Interest) Calculator</h1>
+
+    <div class="container">
+        <form id="interestForm">
+            <label for="principal">Principal Amount:</label>
+            <input type="number" id="principal" placeholder="Enter the principal amount" required>
+
+            <label for="rate">Monthly Interest Rate (%):</label>
+            <input type="number" id="rate" placeholder="Enter the interest rate" required>
+
+            <label for="months">Number of Month:</label>
+            <input type="number" id="months" placeholder="Enter the number of months" required>
+
+            <label for="compounds">Compounds per Month (e.g., 1 for Monthly, 12 for Annually):</label>
+            <input type="number" id="compounds" value="1" min="1" required>
+
+            <button type="button" onclick="calculateCompoundInterest()">Calculate Interest</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;">
+            <strong>Compound Interest:</strong> ₹<span id="interestAmount"></span><br>
+            <strong>Total Amount (Principal + Interest):</strong> ₹<span id="totalAmount"></span><br>
+            <strong>Monthly Average:</strong> ₹<span id="monthlyavgAmount"></span><br>
+        </div>
+    </div>
+
+    <script>
+        function calculateCompoundInterest() {
+            // Get values from the form
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value) / 100;
+            const months = parseFloat(document.getElementById('months').value);
+            const compounds = parseInt(document.getElementById('compounds').value);
+
+            // Validate inputs
+            if (isNaN(principal) || isNaN(rate) || isNaN(months) || isNaN(compounds)) {
+                alert("Please enter valid values for all fields.");
+                return;
+            }
+
+            // Compound Interest Formula: A = P (1 + r/n)^(nt)
+            const amount = principal * Math.pow(1 + rate / compounds, compounds * months);
+            const interest = amount - principal;
+            const avgInterest = interest/months;
+
+            // Display the result
+            document.getElementById('interestAmount').textContent = interest.toFixed(2);
+            document.getElementById('totalAmount').textContent = amount.toFixed(2);
+            document.getElementById('monthlyavgAmount').textContent = avgInterest.toFixed(2);
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
